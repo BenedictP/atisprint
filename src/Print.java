@@ -1,22 +1,17 @@
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Properties;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextPane;
+
 import com.jcraft.jsch.*;
 
-public class Main {
+public class Print {
 
-	public static void main(String[] args) {
-		if (args.length == 3) {
-			String username = args[0];
-			String password = args[1];
-			File file = new File(args[2]);
-			System.out.println("" + file.getName());
-			Main main = new Main();
-			main.print(username, password, file);
-		}
-	}
 
-	private void print(String username, String password, File document) {
+	public void print(String username, String password, File document, JTextPane statusPane) {
 
 		try {
 			JSch jsch = new JSch();
@@ -27,15 +22,17 @@ public class Main {
 			config.setProperty("StrictHostKeyChecking", "no");
 			session.setConfig(config);
 			session.connect();
-
-			System.out.println("Transferring...");
+			
+			statusPane.setText("" + statusPane.getText() + "\nTransferring...");
+			//System.out.println("Transferring...");
 			ChannelSftp channelSftp = (ChannelSftp) session.openChannel("sftp");
 			channelSftp.connect();
 			channelSftp.cd("/home/stud/" + username + "/");
 			channelSftp.put(new FileInputStream(document), filename);
 			channelSftp.disconnect();
 
-			System.out.println("Printing...");
+			//System.out.println("Printing...");
+			statusPane.setText("" + statusPane.getText() + "\nPrinting...");
 			ChannelExec channelExecPrint = (ChannelExec) session.openChannel("exec");
 			channelExecPrint.setCommand("lp -d pool-sw2 " + document.getName() + ";");
 			// channelExecPrint.setCommand("rm " + document.getName() + ";");
