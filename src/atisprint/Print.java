@@ -2,9 +2,6 @@ package atisprint;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Properties;
-
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JTextPane;
 
 import com.jcraft.jsch.*;
