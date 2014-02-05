@@ -24,6 +24,7 @@ import javax.swing.JTextPane;
 import javax.swing.JLabel;
 
 
+@SuppressWarnings("serial")
 public class MainFrame extends JFrame {
 
 	private JPanel contentPane;
